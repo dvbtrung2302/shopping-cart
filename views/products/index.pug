@@ -1,0 +1,32 @@
+extends ../layouts/common.pug
+
+block content
+  .row
+    .col
+      h1.w-100
+        span Products
+        form.mt-3(action="/search", method="Get" class="d-flex")
+          input(type="text", name="q", id="input" class="form-control mr-2")
+          button(class="btn btn-primary") Search
+  .row.flex-wrap
+    each product in products
+      .col-lg-3.col-md-4.col-sm-6.mb-2.flex-column
+        .card.h-100
+          img.card-img-top(src= product.image)
+          .card-body.d-flex.flex-column
+            h5.card-title= product.name
+            p.card-text= product.description
+            .d-flex.justify-content-between.mt-auto
+              p.text-muted= product.price + '$'
+              a.btn.btn-primary(href="/cart/add/" + product.id) Add to cart
+  .row.mt-3
+    .col.d-flex.justify-content-end
+      nav
+        ul.pagination
+          - for(var i = 0, j = 0; i < pages.length, j < currentPages.length; i++, j++)
+            if pages[i] == activePage
+              li(class="page-item " + currentPages[j] + " active")
+                a.page-link(href='/?page=' + currentPages[i], tabindex='-1', aria-disabled='true')= pages[i]
+            else
+              li(class="page-item " + currentPages[j])
+                a.page-link(href='/?page=' + currentPages[i], tabindex='-1', aria-disabled='true')= pages[i]
