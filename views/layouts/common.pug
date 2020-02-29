@@ -11,7 +11,9 @@ html
           li.nav-item
             a.nav-link(href='#')
               i.fas.fa-shopping-cart
-              span Shopping Cart
+              span Shopping Cart 
+              if cart
+                span.badge.badge-secondary= cart
           if user
             li.nav-item.dropdown
               a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
