@@ -1,0 +1,31 @@
+extends ../layouts/common.pug
+
+block content
+  if carts.length
+    .row
+      .col
+        ul.list-group
+          each cart in carts
+            li.list-group-item.d-flex.align-items-center
+              strong= cart.productName
+              span &nbsp
+              span.badge.badge-success= '$' + cart.productPrice
+              span &nbsp
+              div.dropdown
+                button.btn.btn-primary.btn-sm.dropdown-toggle(type="button", id="dropdownMenuButton", data-toggle="dropdown", aria-haspopup="true" aria-expanded="false") Action
+                ul.dropdown-menu(aria-labelledby="dropdownMenuButton")
+                  li
+                    a.dropdown-item(href="#") Reduce by 1
+                  li
+                    a.dropdown-item(href="#") Remove All
+              span.badge.badge-secondary.ml-auto= cart.quantity
+    .row.my-3
+      .col
+        strong= 'Total: $' + total
+    .row
+      .col
+        button.btn.btn-success Checkout
+  else 
+    .row
+      .col
+        h2 No Items in Cart.

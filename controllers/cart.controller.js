@@ -1,4 +1,5 @@
 var Session = require('../models/session.model');
+var Product = require('../models/product.model');
 
 module.exports.addToCart = async function(req, res) {
   var productId = req.params.productId;
@@ -40,3 +41,30 @@ module.exports.addToCart = async function(req, res) {
 
   res.redirect('/');
 }
+
+module.exports.index = async function(req, res) {
+  var productId = req.params.productId;
+  var sessionId = req.signedCookies.sessionId;
+  var totalPrice = 0
+  
+  if (!sessionId) {
+    res.redirect('/');
+    return;
+  }
+
+  var session = await Session.findOne({ sessionId: sessionId });
+  var carts = session.cart;
+
+  for (var cart of carts) {
+    var product = await Product.findById(cart.productId);
+    cart.productName = product.name;
+    cart.productPrice = product.price;
+    totalPrice += (cart.productPrice * cart.quantity);
+  }
+
+  res.render('cart', {
+    carts: carts,
+    total: totalPrice
+  });
+
+};
