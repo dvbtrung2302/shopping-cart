@@ -7,6 +7,8 @@ router.get('/', controller.index);
 
 router.get('/add/:productId', controller.addToCart);
 
-router.get('/reduce/:productId', controller.reduceByOne)
+router.get('/reduce/:productId', controller.reduceByOne);
+
+router.get('/remove-all/:productId', controller.removeAll);
 
 module.exports = router;

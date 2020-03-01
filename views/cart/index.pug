@@ -17,7 +17,7 @@ block content
                   li
                     a.dropdown-item(href="/cart/reduce/" + cart.productId) Reduce by 1
                   li
-                    a.dropdown-item(href="#") Remove All
+                    a.dropdown-item(href="/cart/remove-all/" + cart.productId) Remove All
               span.badge.badge-secondary.ml-auto= cart.quantity
     .row.my-4
       .col
