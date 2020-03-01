@@ -14,18 +14,7 @@ module.exports = async function(req, res, next) {
     var session = new Session(data);
     session.save();
   };
-  var item = await Session.findOne({sessionId: sessionId});
-  var carts = item.cart;
-  
-  if (!carts.length) {
-    next();
-    return;
-  }
 
-  var totalQuantity = 0;
-  for (var cart of carts) {
-    totalQuantity += cart.quantity;
-  }
-  res.locals.cart = totalQuantity;
+  
   next();
 }

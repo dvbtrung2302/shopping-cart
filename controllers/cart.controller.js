@@ -43,7 +43,6 @@ module.exports.addToCart = async function(req, res) {
 }
 
 module.exports.index = async function(req, res) {
-  var productId = req.params.productId;
   var sessionId = req.signedCookies.sessionId;
   var totalPrice = 0
   
@@ -67,4 +66,45 @@ module.exports.index = async function(req, res) {
     total: totalPrice
   });
 
+};
+
+module.exports.reduceByOne = async function(req, res) {
+  var productId = req.params.productId;
+  var sessionId = req.signedCookies.sessionId;
+
+  if (!sessionId) {
+    res.redirect('/');
+    return;
+  }
+
+  function removeElement(array, elem) {
+    var index = array.indexOf(elem);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+  };
+
+  var session = await Session.findOne({ sessionId: sessionId });
+  var carts = session.cart;
+  var errors = [];
+  var newCarts = carts.map(function(cart) {
+    if (cart.productId === productId) {
+      cart.productId = productId;
+      cart.quantity = cart.quantity - 1;
+      if (cart.quantity <= 0) {
+        cart.quantity = 0;
+      } 
+      return cart;
+    }   
+    return cart; 
+  });
+
+  for (var cart of newCarts) {
+    if (cart.quantity === 0) {
+      removeElement(newCarts, cart);
+    }
+  } 
+
+  await Session.findOneAndUpdate({sessionId: sessionId}, {$set:{cart:newCarts}}, {new: true});
+  res.redirect('/cart');
 };

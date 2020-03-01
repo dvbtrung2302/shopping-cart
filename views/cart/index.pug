@@ -15,13 +15,14 @@ block content
                 button.btn.btn-primary.btn-sm.dropdown-toggle(type="button", id="dropdownMenuButton", data-toggle="dropdown", aria-haspopup="true" aria-expanded="false") Action
                 ul.dropdown-menu(aria-labelledby="dropdownMenuButton")
                   li
-                    a.dropdown-item(href="#") Reduce by 1
+                    a.dropdown-item(href="/cart/reduce/" + cart.productId) Reduce by 1
                   li
                     a.dropdown-item(href="#") Remove All
               span.badge.badge-secondary.ml-auto= cart.quantity
-    .row.my-3
+    .row.my-4
       .col
         strong= 'Total: $' + total
+    hr
     .row
       .col
         button.btn.btn-success Checkout
