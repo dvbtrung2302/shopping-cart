@@ -58,6 +58,6 @@ module.exports.postSignin = async function(req, res) {
 
   res.locals.user = user;
 
-  res.render('users/index');
+  res.redirect('/');
 }
 
