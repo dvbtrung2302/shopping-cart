@@ -1,8 +1,13 @@
 var User = require('../models/user.model');
 var md5 = require('md5');
+var Order = require('../models/order.model');
 
 module.exports.index = async function(req, res) {
-  res.render('users');
+  var userId = req.signedCookies.userId;
+  var orders = await Order.find({ userId: userId });
+  res.render('users', {
+    orders: orders
+  });
 };
 
 module.exports.signup = function(req, res) {

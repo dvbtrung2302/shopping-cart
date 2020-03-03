@@ -167,6 +167,7 @@ module.exports.checkout = async function(req ,res) {
 module.exports.postCheckout = async function(req, res) {
   var sessionId = req.signedCookies.sessionId;
   var session = await Session.findOne({ sessionId: sessionId });
+  var userId = req.signedCookies.userId;
 
   if (!sessionId) {
     res.redirect('/');
@@ -178,7 +179,8 @@ module.exports.postCheckout = async function(req, res) {
     address: req.body.address,
     phone: req.body.phone,
     cart: cart,
-    total: session.totalPrice
+    total: session.totalPrice,
+    userId: userId
   };
 
   var order = await new Order(data);

@@ -5,7 +5,8 @@ var orderSchema = new mongoose.Schema({
   address: String,
   phone: String,
   cart: [],
-  total: Number
+  total: Number,
+  userId: String
 });
 
 var Order = mongoose.model('Order', orderSchema, 'orders');
