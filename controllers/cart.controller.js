@@ -1,5 +1,6 @@
 var Session = require('../models/session.model');
 var Product = require('../models/product.model');
+var Order = require('../models/order.model');
 
 module.exports.addToCart = async function(req, res) {
   var productId = req.params.productId;
@@ -60,6 +61,9 @@ module.exports.index = async function(req, res) {
     cart.productPrice = product.price;
     totalPrice += (cart.productPrice * cart.quantity);
   }
+
+  await Session.findOneAndUpdate({sessionId: sessionId}, {$set:{totalPrice:totalPrice}}, {new: true});
+  await Session.findOneAndUpdate({sessionId: sessionId}, {$set:{cart:carts}}, {new: true});
 
   res.render('cart', {
     carts: carts,
@@ -144,4 +148,45 @@ module.exports.removeAll = async function(req, res) {
 
   await Session.findOneAndUpdate({sessionId: sessionId}, {$set:{cart:newCarts}}, {new: true});
   res.redirect('/cart');
+};
+
+module.exports.checkout = async function(req ,res) {
+  var sessionId = req.signedCookies.sessionId;
+  var session = await Session.findOne({ sessionId: sessionId });
+
+  if (!sessionId) {
+    res.redirect('/');
+    return;
+  }
+  res.render('cart/checkout', {
+    totalPrice: session.totalPrice,
+    csrfToken: req.csrfToken()
+  });
+};
+
+module.exports.postCheckout = async function(req, res) {
+  var sessionId = req.signedCookies.sessionId;
+  var session = await Session.findOne({ sessionId: sessionId });
+
+  if (!sessionId) {
+    res.redirect('/');
+    return;
+  }
+  var cart = session.cart;
+  var data = {
+    name: req.body.name,
+    address: req.body.address,
+    phone: req.body.phone,
+    cart: cart,
+    total: session.totalPrice
+  };
+
+  var order = await new Order(data);
+  await order.save();
+
+  cart.length = 0;
+  await Session.findOneAndUpdate({sessionId: sessionId}, {$set:{cart:cart}}, {new: true});
+
+  req.flash('buySuccess', 'Successfully bought product!');
+  res.redirect('/');
 };

@@ -11,4 +11,8 @@ router.get('/reduce/:productId', controller.reduceByOne);
 
 router.get('/remove-all/:productId', controller.removeAll);
 
+router.get('/checkout', controller.checkout);
+
+router.post('/checkout', controller.postCheckout);
+
 module.exports = router;

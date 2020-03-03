@@ -3,6 +3,10 @@ extends ../layouts/common.pug
 block content
   .row
     .col
+      if buySuccess
+        .alert.alert-success.mx-auto.w-25.text-center= buySuccess
+  .row
+    .col
       h1.w-100
         span Products
         form.mt-3(action="/search", method="Get" class="d-flex")

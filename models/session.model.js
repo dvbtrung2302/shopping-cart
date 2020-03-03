@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 var sessionSchema = new mongoose.Schema({
   sessionId: String,
-  cart: []
+  cart: [],
+  totalPrice: Number
 });
 
 var Session = mongoose.model('Session', sessionSchema, 'sessions');

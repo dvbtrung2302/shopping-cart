@@ -11,7 +11,7 @@ module.exports.index = async function(req, res) {
   var pages = [];
   var currentPages = [];
   var activePage;
-
+  var buySuccess = req.flash('buySuccess');
   if (currentPage === 1) {
     pages.push('Previous', currentPage, currentPage + 1, currentPage + 2, 'Next');
     currentPages.push('disabled', currentPage, currentPage + 1, currentPage + 2, currentPage + 1);
@@ -29,7 +29,8 @@ module.exports.index = async function(req, res) {
     products: products.slice(start, end),
     pages: pages,
     currentPages: currentPages,
-    activePage: currentPage
+    activePage: currentPage,
+    buySuccess: buySuccess
   });
 };
 
@@ -52,5 +53,5 @@ module.exports.search = async function(req, res) {
     products: matchedProducts,
     pages: pages,
     currentPages: currentPages,
-    activePage: currentPage
+    activePage: currentPage,
   });};

@@ -1,0 +1,22 @@
+extends ../layouts/common.pug
+
+block content
+  h1 Checkout
+  h4 Your total: 
+    span.badge.badge-success= '$' + totalPrice  
+  form(method="POST")
+    input(type="hidden", name="_csrf", value=csrfToken)
+    .form-group
+      label(for="name") Name
+      input.form-control#name(name="name", type="text", value=values ? values.name : "", required)
+
+    .form-group
+      label(for="address") Address
+      input.form-control#address(name="address", type="text", value=values ? values.phone : "", required)
+
+    .form-group
+      label(for="phone") Phone
+      input.form-control#phone(name="phone", type="text", value=values ? values.email : "", required)
+
+    button.btn.btn-success Buy now
+  a(href="/cart") Return to cart 
