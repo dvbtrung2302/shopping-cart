@@ -4,6 +4,6 @@
 
 Run "npm install"
 
-#Run app
+# Run app
 
 Run "npm run dev" 
