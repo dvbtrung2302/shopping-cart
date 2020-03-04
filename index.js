@@ -20,7 +20,7 @@ var signinMiddleware = require('./middlewares/signin.middleware');
 
 // Default setting
 mongoose.connect(process.env.MONGO_URL, {
-  dbName: process.env.DB_NAME
+  dbName: process.env.DB_NAME || null
 });
 
 app.set('views', './views');
