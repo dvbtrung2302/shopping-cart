@@ -19,7 +19,10 @@ var cartMiddleware = require('./middlewares/cart.middleware');
 var signinMiddleware = require('./middlewares/signin.middleware');
 
 // Default setting
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 app.set('views', './views');
 app.set('view engine', 'pug');
