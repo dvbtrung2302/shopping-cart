@@ -39,7 +39,7 @@ module.exports.addToCart = async function(req, res) {
   }
 
   await Session.findOneAndUpdate({sessionId: sessionId}, {$set:{cart:carts}}, {new: true});
-
+  req.flash('addSuccess', 'Add to cart successfully!');
   res.redirect('/');
 }
 

@@ -12,6 +12,8 @@ module.exports.index = async function(req, res) {
   var currentPages = [];
   var activePage;
   var buySuccess = req.flash('buySuccess');
+  var addSuccess = req.flash('addSuccess');
+  
   if (currentPage === 1) {
     pages.push('Previous', currentPage, currentPage + 1, currentPage + 2, 'Next');
     currentPages.push('disabled', currentPage, currentPage + 1, currentPage + 2, currentPage + 1);
@@ -30,28 +32,19 @@ module.exports.index = async function(req, res) {
     pages: pages,
     currentPages: currentPages,
     activePage: currentPage,
-    buySuccess: buySuccess
+    buySuccess: buySuccess,
+    addSuccess: addSuccess
   });
 };
 
 module.exports.search = async function(req, res) {
-  var currentPage = parseInt(req.query.page) || 1; //n
-  var perPage = 8; // x
   var products = await Product.find();
-  
-  var pages = [];
-  var currentPages = [];
-  var activePage;
 
   var matchedProducts = products.filter(function(product) {
     return product.name.toLowerCase().indexOf(req.query.q.toLowerCase()) !== -1;
   });
 
-  var totalPage = Math.ceil(matchedProducts.length / perPage);
 
   res.render('products/index', {
     products: matchedProducts,
-    pages: pages,
-    currentPages: currentPages,
-    activePage: currentPage,
   });};

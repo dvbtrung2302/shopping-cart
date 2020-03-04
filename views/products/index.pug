@@ -7,6 +7,10 @@ block content
         .alert.alert-success.mx-auto.w-25.text-center= buySuccess
   .row
     .col
+      if addSuccess
+        .alert.alert-success.mx-auto.w-25.text-center= addSuccess
+  .row
+    .col
       h1.w-100
         span Products
         form.mt-3(action="/search", method="Get" class="d-flex")
