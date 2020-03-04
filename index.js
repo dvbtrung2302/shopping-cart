@@ -9,7 +9,7 @@ var flash = require('req-flash');
 
 var csurf = require('csurf');
 
-var port = 3000;
+var port = process.env.PORT || 3000;
 
 var productRoute = require('./routes/product.route');
 var userRoute = require('./routes/user.route');
